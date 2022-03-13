@@ -71,7 +71,35 @@
             $result -> close();
         }
 
-        if (array_key_exists('ri', $_GET)) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($_GET['ri'] == -1) {
+                $insert_query = "";
+
+                foreach ($_POST as $key=>$item){
+                    if ($key == 'id'){
+                        $item = 'NULL';
+                    }
+
+                    $insert_query .= "'".$item."',";
+                }
+
+                $insert_query = substr($insert_query, 0, -1);
+                $db->query("INSERT INTO ".$entity_tables[$entity_index]." VALUES (".$insert_query.")");
+            }
+            else {
+                $update_query = "";
+
+                foreach ($_POST as $key=>$item){
+                    $update_query .= $key."='".$item."',";
+                }
+
+                $update_query = substr($update_query, 0, -1);
+                $db->query("UPDATE ".$entity_tables[$entity_index]." SET ".$update_query." WHERE id=".$_POST['id']);
+            }
+
+            echo '<p>Сущность добавлена/обновлена</p>';
+        }
+        else if (array_key_exists('ri', $_GET)) {
             require 'edit_form.php';
         }
         else {
