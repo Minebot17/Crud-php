@@ -29,13 +29,37 @@
             die('Connect Error (' . $db->connect_errno . ') ' . $db->connect_error);
         }
 
-        if ($result = $db -> query("SELECT * FROM author")) {
+        $entity_tables = ['author', 'book'];
+        $entity_columns = [];
+        $entity_rows = [];
+        $entity_columns_view =
+            [
+                ['ID', 'Имя', 'Фамилия'],
+                ['ID', 'Картинка', 'Название', 'Автор', 'Описание', 'Цена']
+            ];
+
+        for ($i = 0; $i < count($entity_tables); $i++){
+            if ($result = $db -> query('SHOW COLUMNS FROM ' . $entity_tables[$i])) {
+                $columns_info = $result->fetch_all();
+                $entity_columns[$i] = [];
+
+                foreach ($columns_info as $column_info){
+                    $entity_columns[$i][] = $column_info[0];
+                }
+
+                $result -> close();
+            }
+        }
+
+        if ($result = $db -> query('SELECT * FROM author')) {
             $author_rows = $result->fetch_all();
+            $entity_rows[] = $author_rows;
             $result -> close();
         }
 
-        if ($result = $db -> query("SELECT * FROM book")) {
+        if ($result = $db -> query('SELECT * FROM book')) {
             $books_rows = $result->fetch_all();
+            $entity_rows[] = $books_rows;
             $books_rows_view = $books_rows;
 
             for ($i = 0; $i < count($books_rows_view); $i++){
@@ -47,12 +71,14 @@
             $result -> close();
         }
 
-        $table_view_headers = $entity_index == 0 ?
-            ['ID', 'Имя', 'Фамилия'] :
-            ['ID', 'Картинка', 'Название', 'Автор', 'Описание', 'Цена'];
-
-        $table_view_rows = $entity_index == 0 ? $author_rows : $books_rows_view;
-        require 'table_view.php';
+        if (array_key_exists('ri', $_GET)) {
+            require 'edit_form.php';
+        }
+        else {
+            $table_view_headers = $entity_columns_view[$entity_index];
+            $table_view_rows = $entity_index == 0 ? $author_rows : $books_rows_view;
+            require 'table_view.php';
+        }
         ?>
 	</body>
 </html>

@@ -10,7 +10,8 @@
     </thead>
     <tbody>
     <?php
-    foreach ($table_view_rows as $row) {
+    for ($i = 0; $i < count($table_view_rows); $i++) {
+        $row = $table_view_rows[$i];
         echo '<tr>';
 
         foreach ($row as $item){
@@ -18,7 +19,7 @@
         }
 
         echo '<td>
-                <button type="submit" class="btn btn-primary">Редактировать</button>
+                <button type="submit" class="btn btn-primary"><a href="/index.php?ei='.$entity_index.'&ri='.$i.'" style="color: white; text-decoration: none;">Редактировать</a></button>
                 <button type="submit" class="btn btn-danger" style="margin-left: 20px;">Удалить</button>
             </td>
         </tr>
@@ -28,4 +29,4 @@
     </tbody>
 </table>
 
-<button type="button" class="btn btn-primary">Создать</button>
+<button type="button" class="btn btn-primary" style="margin-left: 20px;"><a href="/index.php?ei=<?php echo $entity_index; ?>&ri=-1" style="color: white; text-decoration: none;">Создать</a></button>
