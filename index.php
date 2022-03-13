@@ -97,7 +97,11 @@
                 $db->query("UPDATE ".$entity_tables[$entity_index]." SET ".$update_query." WHERE id=".$_POST['id']);
             }
 
-            echo '<p>Сущность добавлена/обновлена</p>';
+            echo '<p>Действие успешно выполнено</p>';
+        }
+        else if (array_key_exists('del', $_GET)) {
+            $db->query("DELETE FROM ".$entity_tables[$entity_index]." WHERE id=".$_GET['del']);
+            echo '<p>Действие успешно выполнено</p>';
         }
         else if (array_key_exists('ri', $_GET)) {
             require 'edit_form.php';

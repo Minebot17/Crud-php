@@ -20,7 +20,7 @@
 
         echo '<td>
                 <button type="submit" class="btn btn-primary"><a href="/index.php?ei='.$entity_index.'&ri='.$i.'" style="color: white; text-decoration: none;">Редактировать</a></button>
-                <button type="submit" class="btn btn-danger" style="margin-left: 20px;">Удалить</button>
+                <button type="submit" class="btn btn-danger" style="margin-left: 20px;"><a href="/index.php?ei='.$entity_index.'&del='.$table_view_rows[$i][0].'" style="color: white; text-decoration: none;">Удалить</a></button>
             </td>
         </tr>
         ';
