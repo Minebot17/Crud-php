@@ -24,7 +24,7 @@
 
         require 'header.php';
 
-        $db = new mysqli('localhost', 'root', '', 'books_shop');
+        $db = new mysqli('jenypc.ddns.net', 'root', 'root', 'books_shop');
         if ($db->connect_error) {
             die('Connect Error (' . $db->connect_errno . ') ' . $db->connect_error);
         }
@@ -65,7 +65,6 @@
             for ($i = 0; $i < count($books_rows_view); $i++){
                 $found_object = array_find($author_rows, function($x, $t) { return $x[0] == $t; }, $books_rows_view[$i][3]);
                 $books_rows_view[$i][3] = $found_object[1];
-                $books_rows_view[$i][1] = 'url';
             }
 
             $result -> close();

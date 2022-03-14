@@ -15,7 +15,12 @@
         echo '<tr>';
 
         foreach ($row as $item){
-            echo '<td>' . $item . '</td>';
+            if (strpos($item, 'http') !== false){
+                echo '<td><img src="'.$item.'" style="max-width: 100px;"></td>';
+            }
+            else {
+                echo '<td>' . $item . '</td>';
+            }
         }
 
         echo '<td>
