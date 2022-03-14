@@ -1,21 +1,10 @@
 <?php
-if (array_key_exists('ei', $_GET)){
-    $entity_index = $_GET['ei'];
-}
-else if (!isset($entity_index)){
-    $entity_index = 0;
-}
-
-if (array_key_exists('ri', $_GET)){
-    $row_index = $_GET['ri'];
-}
-else if (!isset($row_index)){
-    $row_index = -1;
-}
+read_from_url($entity_index, 'ei', 0);
+read_from_url($row_index, 'ri', -1);
 ?>
 
-<form action="index.php?ei=<?php echo $entity_index; ?>&ri=<?php echo $row_index; ?>" method="post">
-<table>
+<h2><?php echo $row_index == -1 ? 'Добавление': 'Изменение'; ?> сущности</h2><br>
+<form action="/lab1_s/index.php?ei=<?php echo $entity_index; ?>&ri=<?php echo $row_index; ?>" method="post">
     <?php
 
     $current_entity_columns_view = $entity_columns_view[$entity_index];
@@ -31,11 +20,12 @@ else if (!isset($row_index)){
         $current_entity_rows = $entity_rows[$entity_index][$row_index];
     }
 
-    for($i = 0; $i < count($current_entity_rows); $i++){
-        echo '<tr><td>'.$current_entity_columns_view[$i].'</td><td><input type="text" class="form-control" name="'.$entity_columns[$entity_index][$i].'" value="'.$current_entity_rows[$i].'"></td></tr>';
+    echo '<label name="id" value="'.$current_entity_rows[0].'"></label>';
+    for($i = 1; $i < count($current_entity_rows); $i++){
+        echo '<label for="field'.$i.'" class="form-label">'.$current_entity_columns_view[$i].'</label>
+              <input type="text" class="form-control" id="field'.$i.'" name="'.$entity_columns[$entity_index][$i].'" value="'.$current_entity_rows[$i].'"><br>';
     }
     ?>
-</table>
 
-<button type="submit" class="btn btn-primary" style="margin-left: 20px;">Сохранить</button>
+<button type="submit" class="btn btn-primary table-button">Сохранить</button>
 </form>

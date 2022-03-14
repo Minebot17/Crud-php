@@ -7,10 +7,10 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link <?php echo($entity_index == 0 ? "active" : ""); ?>" href="/index.php?ei=0">Авторы</a>
+                    <a class="nav-link <?php echo($entity_index == 0 ? "active" : ""); ?>" href="/lab1_s/index.php?ei=0">Авторы</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo($entity_index == 1 ? "active" : ""); ?>" href="/index.php?ei=1">Книги</a>
+                    <a class="nav-link <?php echo($entity_index == 1 ? "active" : ""); ?>" href="/lab1_s/index.php?ei=1">Книги</a>
                 </li>
             </ul>
         </div>

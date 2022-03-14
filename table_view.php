@@ -1,3 +1,5 @@
+<button type="button" class="btn btn-success table-button"><a class="table-button-link" href="/lab1_s/index.php?ei=<?php echo $entity_index; ?>&ri=-1">Создать</a></button>
+
 <table class="table">
     <thead>
     <tr>
@@ -16,7 +18,7 @@
 
         foreach ($row as $item){
             if (strpos($item, 'http') !== false){
-                echo '<td><img src="'.$item.'" style="max-width: 100px;"></td>';
+                echo '<td><img class="table-image" src="'.$item.'"></td>';
             }
             else {
                 echo '<td>' . $item . '</td>';
@@ -24,8 +26,8 @@
         }
 
         echo '<td>
-                <button type="submit" class="btn btn-primary"><a href="/index.php?ei='.$entity_index.'&ri='.$i.'" style="color: white; text-decoration: none;">Редактировать</a></button>
-                <button type="submit" class="btn btn-danger" style="margin-left: 20px;"><a href="/index.php?ei='.$entity_index.'&del='.$table_view_rows[$i][0].'" style="color: white; text-decoration: none;">Удалить</a></button>
+                <button type="submit" class="btn btn-primary table-button"><a class="table-button-link" href="/lab1_s/index.php?ei='.$entity_index.'&ri='.$i.'">Редактировать</a></button>
+                <button type="submit" class="btn btn-danger table-button"><a class="table-button-link" href="/lab1_s/index.php?ei='.$entity_index.'&del='.$table_view_rows[$i][0].'">Удалить</a></button>
             </td>
         </tr>
         ';
@@ -33,5 +35,3 @@
     ?>
     </tbody>
 </table>
-
-<button type="button" class="btn btn-primary" style="margin-left: 20px;"><a href="/index.php?ei=<?php echo $entity_index; ?>&ri=-1" style="color: white; text-decoration: none;">Создать</a></button>
