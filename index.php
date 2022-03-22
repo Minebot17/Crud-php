@@ -26,6 +26,11 @@
                 ['ID', 'Имя', 'Фамилия'],
                 ['ID', 'Картинка', 'Название', 'Автор', 'Описание', 'Цена']
             ];
+        $entity_columns_types =
+            [
+                ['hidden', 'str', 'str'],
+                ['hidden', 'img', 'str', 'entity-0-1', 'str', 'str']
+            ];
 
         for ($i = 0; $i < count($entity_tables); $i++){
             if ($result = $db -> query('SHOW COLUMNS FROM ' . $entity_tables[$i])) {
@@ -61,7 +66,7 @@
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            if (array_key_exists('image-file', $_FILES)){
+            if (array_key_exists('image-file', $_FILES) && array_key_exists('extension', pathinfo($_FILES['image-file']['name']))){
                 $info = pathinfo($_FILES['image-file']['name']);
                 $ext = $info['extension'];
                 $newname = rand(0, 9999999).".".$ext;
@@ -89,6 +94,10 @@
                 $update_query = "";
 
                 foreach ($_POST as $key=>$item){
+                    if ($item == ''){
+                        continue;
+                    }
+
                     $update_query .= $key."='".$item."',";
                 }
 

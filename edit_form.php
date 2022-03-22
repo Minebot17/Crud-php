@@ -20,12 +20,31 @@ read_from_url($row_index, 'ri', -1);
         $current_entity_rows = $entity_rows[$entity_index][$row_index];
     }
 
-    echo '<input name="id" value="'.$current_entity_rows[0].'" type="hidden">';
-    for($i = 1; $i < count($current_entity_rows); $i++){
-        if ($entity_columns[$entity_index][$i] == 'image_url'){
-            echo '<input name="image_url" value="" type="hidden">';
+    for($i = 0; $i < count($current_entity_rows); $i++){
+        $current_type = $entity_columns_types[$entity_index][$i];
+
+        if ($current_type == 'hidden'){
+            echo '<input name="'.$entity_columns[$entity_index][$i].'" value="'.$current_entity_rows[$i].'" type="hidden">';
+        }
+        else if ($current_type == 'img'){
+            echo '<input name="'.$entity_columns[$entity_index][$i].'" value="" type="hidden">';
             echo '<label for="image-file" class="form-label">Картинка</label>
                 <input class="form-control" type="file" id="image-file" name="image-file"><br>';
+        }
+        else if (substr($current_type, 0, 6) === "entity"){
+            $chunks = explode('-', $current_type);
+            $select_entity_index = $chunks[1];
+            $select_entity_column = $chunks[2];
+
+            echo '<label for="select'.$i.'" class="form-label">'.$current_entity_columns_view[$i].'</label>
+                <select class="form-select" aria-label="Default select example" id="select'.$i.'" name="'.$entity_columns[$entity_index][$i].'">';
+
+            for($j = 0; $j < count($entity_rows[$select_entity_index]); $j++) {
+                echo '<option '.($current_entity_rows[$i] == $entity_rows[$select_entity_index][$j][0] ? 'selected' : '').' 
+                value="'.$entity_rows[$select_entity_index][$j][0].'">'.$entity_rows[$select_entity_index][$j][$select_entity_column].'</option>';
+            }
+
+            echo '</select><br>';
         }
         else {
             echo '<label for="field' . $i . '" class="form-label">' . $current_entity_columns_view[$i] . '</label>
