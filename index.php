@@ -60,6 +60,17 @@
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            if (array_key_exists('image-file', $_FILES)){
+                $info = pathinfo($_FILES['image-file']['name']);
+                $ext = $info['extension'];
+                $newname = rand(0, 9999999).".".$ext;
+
+                $target = 'images/'.$newname;
+                move_uploaded_file($_FILES['image-file']['tmp_name'], $target);
+                $_POST['image_url'] = 'http://jenypc.ddns.net/lab1_s/'.$target;
+            }
+
             if ($_GET['ri'] == -1) {
                 $insert_query = "";
 
@@ -72,7 +83,7 @@
                 }
 
                 $insert_query = substr($insert_query, 0, -1);
-                $db->query("INSERT INTO ".$entity_tables[$entity_index]." VALUES (".$insert_query.")");
+                $db->query("INSERT INTO ".$entity_tables[$entity_index]." VALUES ('0',".$insert_query.")");
             }
             else {
                 $update_query = "";
