@@ -12,6 +12,14 @@
     margin: 5px 5px 5px 0;
 }
 
+.table-header {
+    display: inline;
+}
+
+.table-button-create {
+    float: right;
+}
+
 .table-button-link {
     color: white !important;
     text-decoration: none;

@@ -18,6 +18,7 @@
             die('Connect Error (' . $db->connect_errno . ') ' . $db->connect_error);
         }
 
+        $entity_names = ['Авторы', "Книги"];
         $entity_tables = ['author', 'book'];
         $entity_columns = [];
         $entity_rows = [];
