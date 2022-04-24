@@ -10,12 +10,14 @@
         <?php
         require 'utils.php';
         require 'data_base.php';
+        require 'entity_validator.php';
         read_from_url($entity_index, 'ei', 0);
         require 'header.php';
 
         echo '<div class="container">';
 
         $db = DataBase::getInstance();
+        $validator = EntityValidator::getInstance();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -29,14 +31,19 @@
                 $_POST['image_url'] = 'http://jenypc.ddns.net/lab1_s/'.$target;
             }
 
-            if ($_GET['ri'] == -1) {
-                $db->insert_new_row($entity_index, $_POST);
+            $validate_errors = $entity_index == 0 ? $validator->validate_author($_POST) : $validator->validate_books($_POST);
+            if (count($validate_errors) == 0) {
+                if ($_GET['ri'] == -1) {
+                    $db->insert_new_row($entity_index, $_POST);
+                } else {
+                    $db->update_row($entity_index, $_POST, $_POST['id']);
+                }
+
+                echo '<p>Действие успешно выполнено</p>';
             }
             else {
-                $db->update_row($entity_index, $_POST, $_POST['id']);
+                require 'edit_form.php';
             }
-
-            echo '<p>Действие успешно выполнено</p>';
         }
         else if (array_key_exists('del', $_GET)) {
             $db->delete_row($entity_index, $_GET['del']);

@@ -48,8 +48,17 @@ read_from_url($row_index, 'ri', -1);
             echo '</select><br>';
         }
         else {
+            $entity_column_name = $db->entity_columns[$entity_index][$i];
+            $withError = isset($validate_errors) && array_key_exists($entity_column_name, $validate_errors);
+
             echo '<label for="field' . $i . '" class="form-label">' . $current_entity_columns_view[$i] . '</label>
-                <input type="text" class="form-control" id="field' . $i . '" name="' . $db->entity_columns[$entity_index][$i] . '" value="' . $current_entity_rows[$i] . '"><br>';
+                <input type="text" class="form-control '.($withError ? 'is-invalid' : '').'" id="field' . $i . '" name="'.$entity_column_name.'" value="' . $current_entity_rows[$i] . '">';
+
+            if ($withError){
+                echo '<div class="invalid-feedback">'.$validate_errors[$entity_column_name].'</div>';
+            }
+
+            echo '<br>';
         }
     }
     ?>
