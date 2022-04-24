@@ -1,5 +1,5 @@
 <div>
-    <h1 class="table-header"><?php echo $entity_names[$entity_index]; ?></h1>
+    <h1 class="table-header"><?php echo DataBase::getInstance()->entity_names[$entity_index]; ?></h1>
     <button type="button" class="btn btn-success table-button-create"><a class="table-button-link" href="/lab1_s/index.php?ei=<?php echo $entity_index; ?>&ri=-1">Создать</a></button>
 </div>
 <table class="table">
