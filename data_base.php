@@ -92,7 +92,7 @@ class DataBase {
                 $item = 'NULL';
             }
 
-            $insert_query .= "'".$item."',";
+            $insert_query .= "'".mysqli_real_escape_string($this->conn, $item)."',";
         }
 
         $insert_query = substr($insert_query, 0, -1);
@@ -100,6 +100,7 @@ class DataBase {
     }
 
     public function update_row($entity_index, $column_value_dict, $target_row_id){
+        $target_row_id = mysqli_real_escape_string($this->conn, $target_row_id);
         $update_query = "";
 
         foreach ($column_value_dict as $key=>$item){
@@ -107,7 +108,7 @@ class DataBase {
                 continue;
             }
 
-            $update_query .= $key."='".$item."',";
+            $update_query .= $key."='".mysqli_real_escape_string($this->conn, $item)."',";
         }
 
         $update_query = substr($update_query, 0, -1);
@@ -115,6 +116,7 @@ class DataBase {
     }
 
     public function delete_row($entity_index, $target_row_id){
+        $target_row_id = mysqli_real_escape_string($this->conn, $target_row_id);
         $this->conn->query("DELETE FROM ".$this->entity_tables[$entity_index]." WHERE id=".$target_row_id);
     }
 }
