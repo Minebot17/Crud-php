@@ -96,7 +96,7 @@ class DataBase {
         }
 
         $insert_query = substr($insert_query, 0, -1);
-        $this->conn->query("INSERT INTO ".$this->entity_tables[$entity_index]." VALUES ('0',".$insert_query.")");
+        $this->conn->query("INSERT INTO ".$this->entity_tables[$entity_index]." VALUES (".$insert_query.")");
     }
 
     public function update_row($entity_index, $column_value_dict, $target_row_id){

@@ -5,11 +5,9 @@
 <table class="table">
     <thead>
     <tr>
-        <?php
-        foreach ($table_view_headers as $header){
-            echo '<th scope="col">' . $header . '</th>';
-        }
-        ?>
+        <?php foreach ($table_view_headers as $header): ?>
+            <th scope="col"><?=$header;?></th>
+        <?php endforeach; ?>
     </tr>
     </thead>
     <tbody>
