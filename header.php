@@ -1,11 +1,4 @@
-<?php
-require 'utils.php';
-require 'data_base.php';
-require 'entity_validator.php';
-read_from_url($entity_index, 'ei', 0);
-?>
-
-<!DOCTYPE HTML5>
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">

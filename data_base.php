@@ -4,7 +4,7 @@ class DataBase {
 
     private static $instance = null;
 
-    public $entity_names = ['Авторы', "Книги"];
+    public $entity_names = ['Авторы', "Книги"]; // TODO модели для сущностей
     public $entity_tables = ['author', 'book'];
     public $entity_columns = [];
     public $entity_rows = [];
@@ -92,6 +92,7 @@ class DataBase {
                 $item = 'NULL';
             }
 
+//           TODO $this->conn->real_escape_string()
             $insert_query .= "'".mysqli_real_escape_string($this->conn, $item)."',";
         }
 
@@ -116,7 +117,7 @@ class DataBase {
     }
 
     public function delete_row($entity_index, $target_row_id){
-        $target_row_id = mysqli_real_escape_string($this->conn, $target_row_id);
+        $target_row_id = intval($target_row_id);
         $this->conn->query("DELETE FROM ".$this->entity_tables[$entity_index]." WHERE id=".$target_row_id);
     }
 }

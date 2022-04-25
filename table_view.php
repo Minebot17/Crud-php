@@ -1,6 +1,6 @@
 <div>
     <h1 class="table-header"><?php echo DataBase::getInstance()->entity_names[$entity_index]; ?></h1>
-    <button type="button" class="btn btn-success table-button-create"><a class="table-button-link" href="/lab1_s/index.php?ei=<?php echo $entity_index; ?>&ri=-1">Создать</a></button>
+    <button type="button" class="btn btn-success table-button-create"><a class="table-button-link" href="/lab1_s/form_page.php?ei=<?php echo $entity_index; ?>&ri=-1">Создать</a></button>
 </div>
 <table class="table">
     <thead>
@@ -26,8 +26,11 @@
         }
 
         echo '<td>
-                <button type="submit" class="btn btn-primary table-button"><a class="table-button-link" href="/lab1_s/index.php?ei='.$entity_index.'&ri='.$i.'">Редактировать</a></button>
-                <button type="submit" class="btn btn-danger table-button"><a class="table-button-link" href="/lab1_s/index.php?ei='.$entity_index.'&del='.$table_view_rows[$i][0].'">Удалить</a></button>
+                <button type="submit" class="btn btn-primary table-button"><a class="table-button-link" href="/lab1_s/form_page.php?ei='.$entity_index.'&ri='.$i.'">Редактировать</a></button>
+                <form method="post" action="/lab1_s/index.php?ei='.$entity_index.'" class="table-header">
+                    <input type="hidden" value="'.$table_view_rows[$i][0].'">
+                    <button type="submit" class="btn btn-danger table-button table-header">Удалить</button>
+                </form>
             </td>
         </tr>
         ';

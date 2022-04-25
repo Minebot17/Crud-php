@@ -1,10 +1,10 @@
 <?php
-read_from_url($entity_index, 'ei', 0);
-read_from_url($row_index, 'ri', -1);
+$entity_index = array_key_exists('ei', $_GET) ? $_GET['ei'] : 0;
+$row_index = array_key_exists('ri', $_GET) ? $_GET['ri'] : -1;
 ?>
 
 <h2><?php echo $row_index == -1 ? 'Добавление': 'Изменение'; ?> сущности</h2><br>
-<form action="/lab1_s/index.php?ei=<?php echo $entity_index; ?>&ri=<?php echo $row_index; ?>" method="post" enctype="multipart/form-data">
+<form action="/lab1_s/form_page.php?ei=<?php echo $entity_index; ?>&ri=<?php echo $row_index; ?>" method="post" enctype="multipart/form-data">
     <?php
 
     $db = DataBase::getInstance();

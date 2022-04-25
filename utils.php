@@ -4,15 +4,6 @@ function array_find($xs, $f, $t) {
         if (call_user_func($f, $x, $t) === true) {
             return $x;
         }
-    }
+    } // TODO нахуй
     return null;
-}
-
-function read_from_url(&$var, $key, $default){
-    if (array_key_exists($key, $_GET)){
-        $var = $_GET[$key];
-    }
-    else if (!isset($var)){
-        $var = $default;
-    }
 }
