@@ -28,7 +28,7 @@
         echo '<td>
                 <button type="submit" class="btn btn-primary table-button"><a class="table-button-link" href="/lab1_s/form_page.php?ei='.$entity_index.'&ri='.$i.'">Редактировать</a></button>
                 <form method="post" action="/lab1_s/index.php?ei='.$entity_index.'" class="table-header">
-                    <input type="hidden" value="'.$table_view_rows[$i][0].'">
+                    <input type="hidden" name="del" value="'.$table_view_rows[$i][0].'">
                     <button type="submit" class="btn btn-danger table-button table-header">Удалить</button>
                 </form>
             </td>

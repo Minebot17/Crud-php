@@ -1,10 +1,12 @@
 <?php
+require_once 'models/author.php';
+require_once 'models/book.php';
 
 class DataBase {
 
     private static $instance = null;
 
-    public $entity_names = ['Авторы', "Книги"]; // TODO модели для сущностей
+    public $entity_names = ['Авторы', "Книги"];
     public $entity_tables = ['author', 'book'];
     public $entity_columns = [];
     public $entity_rows = [];
@@ -47,6 +49,30 @@ class DataBase {
         return self::$instance;
     }
 
+    public function insert_author(Author $author) {
+        $this->insert_new_row(0, $author);
+    }
+
+    public function update_author(Author $author) {
+        $this->update_row(0, $author, $author->id);
+    }
+
+    public function delete_author(Author $author) {
+        $this->delete_row(0, $author->id);
+    }
+
+    public function insert_book(Book $book) {
+        $this->insert_new_row(1, $book);
+    }
+
+    public function update_book(Book $book) {
+        $this->update_row(1, $book, $book->id);
+    }
+
+    public function delete_book(Book $book) {
+        $this->delete_row(1, $book->id);
+    }
+
     private function fetchAllEntitiesColumnNames(){
         for ($i = 0; $i < count($this->entity_tables); $i++){
             if ($result = $this->conn->query('SHOW COLUMNS FROM ' . $this->entity_tables[$i])) {
@@ -76,7 +102,7 @@ class DataBase {
             $this->books_rows_view = $books_rows;
 
             for ($i = 0; $i < count($this->books_rows_view); $i++){
-                $found_object = array_find($author_rows, function($x, $t) { return $x[0] == $t; }, $this->books_rows_view[$i][3]);
+                $found_object = $this->array_find($author_rows, function($x, $t) { return $x[0] == $t; }, $this->books_rows_view[$i][3]);
                 $this->books_rows_view[$i][3] = $found_object[1];
             }
 
@@ -84,24 +110,34 @@ class DataBase {
         }
     }
 
-    public function insert_new_row($entity_index, $column_value_dict){
+    private function array_find($xs, $f, $t) {
+        foreach ($xs as $x) {
+            if (call_user_func($f, $x, $t) === true) {
+                return $x;
+            }
+        }
+
+        return null;
+    }
+
+    private function insert_new_row($entity_index, $column_value_dict){
         $insert_query = "";
 
         foreach ($column_value_dict as $key=>$item){
+
             if ($key == 'id'){
                 $item = 'NULL';
             }
 
-//           TODO $this->conn->real_escape_string()
-            $insert_query .= "'".mysqli_real_escape_string($this->conn, $item)."',";
+            $insert_query .= "'".$this->conn->real_escape_string($item)."',";
         }
 
         $insert_query = substr($insert_query, 0, -1);
         $this->conn->query("INSERT INTO ".$this->entity_tables[$entity_index]." VALUES (".$insert_query.")");
     }
 
-    public function update_row($entity_index, $column_value_dict, $target_row_id){
-        $target_row_id = mysqli_real_escape_string($this->conn, $target_row_id);
+    private function update_row($entity_index, $column_value_dict, $target_row_id){
+        $target_row_id = $this->conn->real_escape_string($target_row_id);
         $update_query = "";
 
         foreach ($column_value_dict as $key=>$item){
@@ -109,14 +145,15 @@ class DataBase {
                 continue;
             }
 
-            $update_query .= $key."='".mysqli_real_escape_string($this->conn, $item)."',";
+            $update_query .= $key."='".$this->conn->real_escape_string($item)."',";
         }
 
         $update_query = substr($update_query, 0, -1);
         $this->conn->query("UPDATE ".$this->entity_tables[$entity_index]." SET ".$update_query." WHERE id=".$target_row_id);
     }
 
-    public function delete_row($entity_index, $target_row_id){
+    private function delete_row($entity_index, $target_row_id){
+        echo $target_row_id;
         $target_row_id = intval($target_row_id);
         $this->conn->query("DELETE FROM ".$this->entity_tables[$entity_index]." WHERE id=".$target_row_id);
     }

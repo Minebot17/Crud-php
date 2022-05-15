@@ -1,7 +1,8 @@
 <?php
-require_once 'utils.php';
 require_once 'data_base.php';
 require_once 'entity_validator.php';
+require_once 'models/author.php';
+require_once 'models/book.php';
 
 $entity_index = array_key_exists('ei', $_GET) ? $_GET['ei'] : 0;
 $action_success_view = false;
@@ -26,9 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($_GET['ri'] == -1) {
-            DataBase::getInstance()->insert_new_row($entity_index, $_POST);
+            if ($entity_index == 0){
+                DataBase::getInstance()->insert_author(Author::FromPost());
+            }
+            else if ($entity_index == 1){
+                DataBase::getInstance()->insert_book(Book::FromPost());
+            }
         } else {
-            DataBase::getInstance()->update_row($entity_index, $_POST, $_POST['id']);
+            if ($entity_index == 0){
+                DataBase::getInstance()->update_author(Author::FromPost());
+            }
+            else if ($entity_index == 1){
+                DataBase::getInstance()->update_book(Book::FromPost());
+            }
         }
 
         $action_success_view = true;
@@ -38,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require 'header.php';
 
 if ($action_success_view){
-    echo '<p>Действие успешно выполнено</p>'; // TODO нахуй в message
+    echo '<p>Действие успешно выполнено</p>';
 }
 else {
     require 'edit_form.php';

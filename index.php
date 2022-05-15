@@ -1,13 +1,20 @@
 <?php
-require_once 'utils.php';
 require_once 'data_base.php';
+require_once 'models/author.php';
+require_once 'models/book.php';
 
 $entity_index = array_key_exists('ei', $_GET) ? $_GET['ei'] : 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && array_key_exists('del', $_POST)) {
-    DataBase::getInstance()->delete_row($entity_index, $_POST['del']);
 
-    header('Location: /index.php?');
+    if ($entity_index == 0){
+        DataBase::getInstance()->delete_author(new Author($_POST['del'], "", ""));
+    }
+    else if ($entity_index == 1){
+        DataBase::getInstance()->delete_book(new Book($_POST['del'], "", "", null, "", 0));
+    }
+
+    header('Location: index.php?');
     exit( );
 }
 
