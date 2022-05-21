@@ -1,6 +1,7 @@
 <?php
 require_once 'models/author.php';
 require_once 'models/book.php';
+require_once 'models/user.php';
 
 class DataBase {
 
@@ -71,6 +72,19 @@ class DataBase {
 
     public function delete_book(Book $book) {
         $this->delete_row(1, $book->id);
+    }
+
+    public function register_user(User $user): bool {
+        $login = $this->conn->real_escape_string($user->login);
+        $email = $this->conn->real_escape_string($user->email);
+        $password = md5($this->conn->real_escape_string($user->password));
+        return $this->conn->query('INSERT INTO users VALUES(0,"'.$login.'","'.$email.'","'.$password.'")');
+    }
+
+    public function login_user(User $user): bool {
+        $login = $this->conn->real_escape_string($user->login);
+        $password = md5($this->conn->real_escape_string($user->password));
+        return $this->conn->query('SELECT * FROM users WHERE login="'.$login.'" AND password="'.$password.'"')->num_rows != 0;
     }
 
     private function fetchAllEntitiesColumnNames(){

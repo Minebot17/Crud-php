@@ -2,6 +2,7 @@
 require_once 'data_base.php';
 require_once 'models/author.php';
 require_once 'models/book.php';
+session_start();
 
 $entity_index = array_key_exists('ei', $_GET) ? $_GET['ei'] : 0;
 

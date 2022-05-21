@@ -23,6 +23,31 @@
                         </li>
                     </ul>
                 </div>
+                <ul class="navbar-nav me-auto mb-2 mb-md-0 header-right">
+                    <?php
+                    if (array_key_exists('is_auth', $_SESSION) && $_SESSION['is_auth']){
+                        echo '
+                            <li class="nav-item">
+                                <a class="nav-link" href="/lab1_s/login.php?logout=true">'.$_SESSION['login'].'</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/lab1_s/login.php?logout=true">Выход</a>
+                            </li>
+                        ';
+                    }
+                    else {
+                        echo '
+                            <li class="nav-item">
+                                <a class="nav-link" href="/lab1_s/register.php">Регистрация</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/lab1_s/login.php">Вход</a>
+                            </li>
+                        ';
+                    }
+                    ?>
+
+                </ul>
             </div>
         </nav>
         <div class="container">
