@@ -1,7 +1,9 @@
 <?php
 require_once 'data_base.php';
 require_once 'entity_validator.php';
-session_start();
+if(session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 $action_success_view = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

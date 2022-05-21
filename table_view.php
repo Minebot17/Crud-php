@@ -16,13 +16,16 @@
         $row = $table_view_rows[$i];
         echo '<tr>';
 
+        $j = 0;
         foreach ($row as $item){
-            if (strpos($item, 'http') !== false){
-                echo '<td><img class="table-image" src="'.$item.'"></td>';
+            if (DataBase::getInstance()->entity_columns_types[$entity_index][$j] === 'img'){
+                echo '<td><img class="table-image" src="image_loader.php?image='.urlencode($item).'"></td>';
             }
             else {
                 echo '<td>' . $item . '</td>';
             }
+
+            $j++;
         }
 
         echo '<td>

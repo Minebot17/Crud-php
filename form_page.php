@@ -7,6 +7,10 @@ require_once 'models/book.php';
 $entity_index = array_key_exists('ei', $_GET) ? $_GET['ei'] : 0;
 $action_success_view = false;
 
+if (!array_key_exists('is_auth', $_POST) || !$_SESSION['is_auth']){
+    header('Location: login.php');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $validate_errors = $entity_index == 0
         ? EntityValidator::validate_author($_POST)

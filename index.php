@@ -2,11 +2,16 @@
 require_once 'data_base.php';
 require_once 'models/author.php';
 require_once 'models/book.php';
-session_start();
-
+if(session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 $entity_index = array_key_exists('ei', $_GET) ? $_GET['ei'] : 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && array_key_exists('del', $_POST)) {
+
+    if (!array_key_exists('is_auth', $_POST) || !$_SESSION['is_auth']){
+        header('Location: login.php');
+    }
 
     if ($entity_index == 0){
         DataBase::getInstance()->delete_author(new Author($_POST['del'], "", ""));
